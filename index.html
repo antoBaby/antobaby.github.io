@@ -3,29 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Push Notification Example</title>
-<script type="text/javascript" src="sw.js"></script></head>
+  <title>Web Push Notification Demo</title>
+</head>
 <body>
   <h1>Web Push Notification Demo</h1>
   <button onclick="subscribeUser()">Enable Notifications</button>
-  
+
   <script>
-    // Check if notifications are supported
-    if ('Notification' in window && 'serviceWorker' in navigator) {
-      console.log("Notifications and Service Workers are supported.");
-    } else {
-      alert("Your browser does not support notifications.");
-    }
-
-    // Register the Service Worker
+    // Register the Service Worker and handle notifications
     async function registerServiceWorker() {
-      return await navigator.serviceWorker.register('sw.js');
+      // Register the service worker from within this HTML file
+      const blob = new Blob([`
+        self.addEventListener('push', function(event) {
+          const data = event.data ? event.data.json() : {};
+          const options = {
+            body: data.body || 'Default body',
+            icon: 'icon.png', // Update this to your preferred icon URL or remove
+            vibrate: [100, 50, 100],
+            data: { url: data.url || '/' }
+          };
+          event.waitUntil(
+            self.registration.showNotification(data.title || 'Notification', options)
+          );
+        });
+
+        self.addEventListener('notificationclick', function(event) {
+          event.notification.close();
+          const url = event.notification.data.url;
+          event.waitUntil(clients.openWindow(url));
+        });
+      `], { type: 'application/javascript' });
+
+      const blobUrl = URL.createObjectURL(blob);
+      return await navigator.serviceWorker.register(blobUrl);
     }
 
-    // Request permission and subscribe the user
+    // Function to request permission and show notification
     async function subscribeUser() {
       const permission = await Notification.requestPermission();
-      
       if (permission === 'granted') {
         const registration = await registerServiceWorker();
         showLocalNotification("Notifications Enabled", "You will receive updates!", registration);
@@ -34,13 +49,13 @@
       }
     }
 
-    // Display a local notification
+    // Function to show a local notification
     function showLocalNotification(title, body, swRegistration) {
       const options = {
         body,
-        icon: 'icon.png', // Optional icon
+        icon: 'icon.png', // Optional icon URL or local path
         vibrate: [200, 100, 200],
-        tag: 'demo-notification', // Tag to prevent duplicate notifications
+        tag: 'demo-notification', // Prevent duplicate notifications
       };
       swRegistration.showNotification(title, options);
     }
