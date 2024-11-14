@@ -1,162 +1,49 @@
 <!DOCTYPE html>
-<html>
-<title>Anto Baby</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name = "description" content="Anto Baby Mattathil Profile ">  
-<meta name = "keywords" content="AntoBaby,Mattathil,SoftwareEngineer,Mattam," >
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
-</style>
-<body class="w3-light-grey">
-
-<!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
-
-  <!-- The Grid -->
-  <div class="w3-row-padding">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Push Notification Example</title>
+<script type="text/javascript" src="sw.js"></script></head>
+<body>
+  <h1>Web Push Notification Demo</h1>
+  <button onclick="subscribeUser()">Enable Notifications</button>
   
-    <!-- Left Column -->
-    
-    <div class="w3-third">
-     
-      <div class="w3-white w3-text-grey w3-card-4">
-   <div class="w3-display-container" style="text-align: center;">
-          <img class="w3-circle" src="https://media-exp1.licdn.com/dms/image/C5603AQG1ZqBrRR7d5g/profile-displayphoto-shrink_100_100/0/1609940390006?e=1626912000&v=beta&t=NBud7kdtUZRmbSYd6kgWhS_wovDcitS379cJE8cnT40" style="    width: 40%;
-    margin-top: 4%;" alt="Avatar">
-<p><i class=" w3-margin-right w3-large w3-text-teal w3-text-black"></i><h3 style="color: #009688;">Anto Baby</h3></p>
-          <div class="w3-display-bottomleft w3-container w3-text-black">
-		
-          </div>
-        </div>
-        <div class="w3-container">
-		
-          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Senior Software Enginner</p>
-          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>Cochin, IND</p>
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>antobabymattathil04@gmail.com</p>
-          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>9999999999</p>
-          <hr>
+  <script>
+    // Check if notifications are supported
+    if ('Notification' in window && 'serviceWorker' in navigator) {
+      console.log("Notifications and Service Workers are supported.");
+    } else {
+      alert("Your browser does not support notifications.");
+    }
 
-          <p class="w3-large"><b><i class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>Skills</b></p>
-          <p>Java</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:100%">100%</div>
-          </div>
-          <p>Spring Framework</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:100%">
-              <div class="w3-center w3-text-white">100%</div>
-            </div>
-          </div>
-          <p>Apache Kafka</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:100%">100%</div>
-          </div>
-          <p>MySQL</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:100%">100%</div>
-          </div>
-	 <p>MongoDB</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:100%">100%</div>
-          </div>
-	 <p>Angular</p>
-          <div class="w3-light-grey w3-round-xlarge w3-small">
-            <div class="w3-container w3-center w3-round-xlarge w3-teal" style="width:100%">100%</div>
-          </div>
-	
-		
+    // Register the Service Worker
+    async function registerServiceWorker() {
+      return await navigator.serviceWorker.register('sw.js');
+    }
 
-	<br>
+    // Request permission and subscribe the user
+    async function subscribeUser() {
+      const permission = await Notification.requestPermission();
+      
+      if (permission === 'granted') {
+        const registration = await registerServiceWorker();
+        showLocalNotification("Notifications Enabled", "You will receive updates!", registration);
+      } else {
+        alert("Notification permission denied.");
+      }
+    }
 
-          <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Languages</b></p>
-          <p>English</p>
-          <div class="w3-light-grey w3-round-xlarge">
-            <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>
-          </div>
-          <p>Malayalam</p>
-          <div class="w3-light-grey w3-round-xlarge">
-            <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>
-          </div>
-        
-          <br>
-        </div>
-      </div><br>
-
-    <!-- End Left Column -->
-    </div>
-
-    <!-- Right Column -->
-    <div class="w3-twothird">
-    
-      <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Work Experience</h2>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Senior Software Engineer/ UST Global</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>July 2018 - <span class="w3-tag w3-teal w3-round">Current</span></h6>
-          <p>
-		Senior Software Enginner , Next Level Rich Client Solution making 
-
-	  </p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Software Engineer/ SOD Technologies</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>October 2017  - June 2018</h6>
-          <p> Show Case , showed me what i can do in technology </p>
-          <hr>
-        </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Software Engineer / BQ Technologies</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>May 2016 - September 2017</h6>
-          <p> Exploring phase , from  here explored the technology stack</p><br>
-        </div>
-<div class="w3-container">
-          <h5 class="w3-opacity"><b>Software Engineer / Inexoft Technology</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>April 2014 - January 2016</h6>
-          <p>The journey begin here. Partcipated different project and lerned more about technologies</p><br>
-        </div>
-      </div>
-
-      <div class="w3-container w3-card w3-white">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Education</h2>
-        
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>Sree Devi Colleage Of Information Science</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2009-2012</h6>
-          <p>Bachelor Degree</p><br>
-          <hr>
-        </div>
-<div class="w3-container">
-          <h5 class="w3-opacity"><b>Google & Other Online Technology Platform</b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Forever</h6>
-          <p>Software Development! All I need to know in one place</p>
-
-        </div>
-      </div>
-
-    <!-- End Right Column -->
-    </div>
-    
-  <!-- End Grid -->
-  </div>
-  
-  <!-- End Page Container -->
-</div>
-
-<footer class="w3-container w3-teal w3-center w3-margin-top">
-  <p>Find me on social media.</p>
-  <i class="fa fa-facebook-official w3-hover-opacity"></i>
-  <i class="fa fa-instagram w3-hover-opacity"></i>
-  <i class="fa fa-snapchat w3-hover-opacity"></i>
-  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-  <i class="fa fa-twitter w3-hover-opacity"></i>
-  <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-</footer>
-
+    // Display a local notification
+    function showLocalNotification(title, body, swRegistration) {
+      const options = {
+        body,
+        icon: 'icon.png', // Optional icon
+        vibrate: [200, 100, 200],
+        tag: 'demo-notification', // Tag to prevent duplicate notifications
+      };
+      swRegistration.showNotification(title, options);
+    }
+  </script>
 </body>
 </html>
